@@ -7,7 +7,6 @@ const router = express.Router()
 router.route("/").get(ToursCtrl.apiGetTours)
 router.route("/id/:id").get(ToursCtrl.apiGetTourById)
 router.route("/regions").get(ToursCtrl.apiGetRegions)
-
 router
     .route("/itinerary")
     .post(ItinerariesCtrl.apiPostItineraryItem)

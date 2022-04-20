@@ -5,9 +5,7 @@ let itineraries
 
 export default class itinerariesDAO {
     static async injectDB(conn) {
-        if (itineraries) {
-            return
-        } 
+        if (itineraries) { return } 
         try {
             itineraries = await conn.db("tours").collection("itineraries")
         } catch (e) {
@@ -15,11 +13,11 @@ export default class itinerariesDAO {
         }
     }
 
-    static async addItineraryItem( tourId, itineraryDesc) {
-
+    static async addItineraryItem( tourId, title, description) {
         try {
             const itineraryItemDoc = {
-                itineraryDesc: itineraryDesc,
+                title: title,
+                description: description,
                 tourId: ObjectId(tourId)    
             }
             return await itineraries.insertOne(itineraryItemDoc)
@@ -29,13 +27,13 @@ export default class itinerariesDAO {
         }
     } 
 
-    static async updateItineraryItem( itineraryId, itineraryDesc) {
-
+    static async updateItineraryItem( itineraryId, title, description) {
         try {
-            console.log(`itineraryDesc: ${itineraryDesc}`);
+            console.log(`itineraryId: ${itineraryId}, title: ${title}, description: ${description}`);
             const updateResponse = await itineraries.updateOne(
                 {_id: ObjectId(itineraryId)},
-                {$set: { itineraryDesc: itineraryDesc}}
+                {$set: { title: title}},
+                {$set: { description: description}}
             )
             return updateResponse
         } catch (e) {
@@ -44,14 +42,13 @@ export default class itinerariesDAO {
         }
     } 
 
-    static async deleteItineraryItem( itinerary_id ) {
+    static async deleteItineraryItem( itineraryId ) {
+        console.log(`Deleting itinerary ${itineraryId}`);
         try {
-        const itineraryId = itinerary_id
         return await itineraries.deleteOne({_id: ObjectId(itineraryId)})
         } catch (e) {
             console.error(`Unable to delete itinerary item: ${e}`)
             return { error: e }
         }
-    }
-        
+    }       
 }

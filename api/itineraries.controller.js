@@ -7,10 +7,12 @@ export default class itinerariesCtrl {
             let reqBody = req.body
             console.log(reqBody)
             const tourId = req.body.tour_id
-            const itineraryDesc = req.body.description
+            const title = req.body.title
+            const description = req.body.description
             const ItineraryResponse = await itinerariesDAO.addItineraryItem(
                 tourId,
-                itineraryDesc
+                title,
+                description
             )
 
             res.json({status: "success"})
@@ -24,6 +26,7 @@ export default class itinerariesCtrl {
 
         try {
             const itineraryId = req.body._id
+            const itineraryTitle = req.body.title
             const itineraryDesc = req.body.description
             const ItineraryResponse = await itinerariesDAO.updateItineraryItem(
                 itineraryId,
@@ -38,6 +41,7 @@ export default class itinerariesCtrl {
 
     static async apiDeleteItineraryItem(req, res, next) {
         try {
+            console.log(`Request: ${req.body._id}`);
             const itineraryId = req.body._id
             const itineraryResponse = await itinerariesDAO.deleteItineraryItem(
                 itineraryId

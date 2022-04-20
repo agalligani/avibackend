@@ -4,6 +4,7 @@ const ObjectId = mondodb.ObjectId
 let tours
 
 export default class toursDAO {
+
     static async injectDB(conn) {
         if (tours) {
             return
@@ -49,8 +50,7 @@ export default class toursDAO {
 
         } catch (e) {
             console.error(`Unable to convert cursor to array or problem counting document ${e}`)
-            return {toursList: [], totalNumTours: 0}
-        
+            return {toursList: [], totalNumTours: 0}        
         }
     }
 
@@ -88,7 +88,7 @@ export default class toursDAO {
             ]
         return await tours.aggregate(pipeline).next()
         } catch (e) {
-            console.error(`Something went wrong in getToursById: ${e} `)
+            console.error(`Something went wrong in getTourById: ${e} `)
             throw e
         }
     }
